@@ -1,10 +1,10 @@
 import { IRequest, IResponse } from '../types/General';
 import { decoratedRouter as router } from '../utils/router';
 
-const BASE_ROUTE = '/';
+const BASE_ROUTE = '/api';
 
-router.getAsync('/health-check', async (req: IRequest, res: IResponse) => {
-	res.send('Service is Up!');
+router.postAsync('/comment/:id', async (req: IRequest, res: IResponse) => {
+	res.send('Comment on Post');
 });
 
 export default router.use(BASE_ROUTE, router);

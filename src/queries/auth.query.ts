@@ -2,9 +2,9 @@ import { logger } from '../utils/logger';
 import { pgClient } from '../utils/postgres';
 import brcypt from 'bcryptjs';
 import { ILoginParams } from '../api/auth/v1.login';
-import { IRawUser, IUser } from '../types/User';
+import { IRawUser } from '../types/User';
 import jwt from 'jsonwebtoken';
-import {escape} from 'sqlutils';
+import {escape} from 'sqlutils/pg';
 
 interface IAuthToken {
     authToken: string;
