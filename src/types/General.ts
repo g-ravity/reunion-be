@@ -8,3 +8,7 @@ export interface IResponse extends Response {
 export interface IRequest extends Request {
 	user: IRawUser;
 }
+
+export interface ISuccess {
+	isSuccess: boolean;
+}
