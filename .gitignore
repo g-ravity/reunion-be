@@ -34,6 +34,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
+logfile
 
 logs.txt
 error-logs.txt

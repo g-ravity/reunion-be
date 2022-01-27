@@ -5,8 +5,11 @@ import routes from './routes/routes';
 import upgradeResponse from './utils/responseConstructor';
 import { logger } from './utils/logger';
 import postgresConnection from './utils/postgres';
+import dotenv from 'dotenv-safe';
 
 const port = process.env.PORT;
+
+dotenv.config();
 
 // Initialize the Express App
 const app = Express();

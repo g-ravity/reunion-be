@@ -1,6 +1,6 @@
 import { NextFunction, Request } from 'express';
 import { Express } from 'express-serve-static-core';
-import { IResponse } from '../types';
+import { IResponse } from '../types/General';
 
 const upgradeResponse = (app: Express) =>
 	app.use((req: Request, res: IResponse, next: NextFunction) => {
