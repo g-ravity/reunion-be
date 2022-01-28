@@ -1,11 +1,11 @@
 import { IPost } from './Post';
-import { IRawUser } from './User';
+import { ICleanUser } from './User';
 
 export interface IComment {
 	id: number;
 	comment: string;
 	postId: IPost['id'];
-	userId: IRawUser['id'];
+	userId: ICleanUser['id'];
 }
 
 export type ICommentArgs = Pick<IComment, 'comment' | 'postId' | 'userId'>;

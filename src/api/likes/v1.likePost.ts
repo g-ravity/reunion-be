@@ -1,9 +1,9 @@
 import { logger } from '../../utils/logger';
-import { IRawUser } from '../../types/User';
+import { ICleanUser } from '../../types/User';
 import { likePostQuery } from '../../queries/likes.query';
 import { IPost } from '../../types/Post';
 
-export const likePost = async (userId: IRawUser['id'], postId: IPost['id']) => {
+export const likePost = async (userId: ICleanUser['id'], postId: IPost['id']) => {
 	try {
 		const likeData = await likePostQuery({ userId, postId });
 		return likeData;

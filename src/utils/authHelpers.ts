@@ -1,7 +1,7 @@
 import { NextFunction, Request } from 'express';
 import { verify } from 'jsonwebtoken';
 import { IResponse } from '../types/General';
-import { IRawUser } from '../types/User';
+import { ICleanUser } from '../types/User';
 import { logger } from './logger';
 
 export const checkJWT = () => {
@@ -13,7 +13,7 @@ export const checkJWT = () => {
 
 		try {
 			const authToken = authorization.split(' ')[1];
-			const user = verify(authToken, process.env.JWT_SECRET) as IRawUser;
+			const user = verify(authToken, process.env.JWT_SECRET) as ICleanUser;
 
 			Object.assign(req, { user: { ...user } });
 

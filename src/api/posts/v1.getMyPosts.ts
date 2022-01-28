@@ -1,8 +1,8 @@
 import { logger } from '../../utils/logger';
-import { IRawUser } from '../../types/User';
+import { ICleanUser } from '../../types/User';
 import { getMyPostsQuery } from '../../queries/posts.query';
 
-export const getMyPosts = async (userId: IRawUser['id']) => {
+export const getMyPosts = async (userId: ICleanUser['id']) => {
 	try {
 		const posts = await getMyPostsQuery({ id: userId });
 		return posts;

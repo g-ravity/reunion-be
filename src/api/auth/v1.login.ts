@@ -2,10 +2,13 @@ import { logger } from '../../utils/logger';
 import { validateInput } from '../../utils/validateInput';
 import * as yup from 'yup';
 import { loginQuery } from '../../queries/auth.query';
-import { IRawUser } from '../../types/User';
+import { ICleanUser } from '../../types/User';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { omitWrapper } from '../../utils/commonHelpers';
 
 export type ILoginParams = {
-	email: IRawUser['email'];
+	email: ICleanUser['email'];
 	password: string;
 };
 
@@ -18,10 +21,21 @@ export const loginUser = async (params: ILoginParams) => {
 	try {
 		validateInput(LoginSchema, params);
 
-		const authData = await loginQuery(params);
-		return authData;
+		const userData = await loginQuery({ email: params.email });
+
+		const isMatch = await bcrypt.compare(params.password, userData.password);
+		if (isMatch) {
+			const authToken = jwt.sign(omitWrapper(userData, ['password', 'email']), process.env.JWT_SECRET, {
+				expiresIn: '1d',
+			});
+
+			return { authToken };
+		} else {
+			logger.error('Wrong Password');
+			throw new Error('Wrong Password');
+		}
 	} catch (err) {
 		logger.error('v1.login: ', err);
-		return null;
+		return err;
 	}
 };

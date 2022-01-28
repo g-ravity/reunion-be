@@ -1,8 +1,8 @@
 import { logger } from '../../utils/logger';
-import { IRawUser } from '../../types/User';
+import { ICleanUser } from '../../types/User';
 import { followUserQuery } from '../../queries/follow.query';
 
-export const followUser = async (userId: IRawUser['id'], followingId: IRawUser['id']) => {
+export const followUser = async (userId: ICleanUser['id'], followingId: ICleanUser['id']) => {
 	try {
 		const followshipData = await followUserQuery({ followerId: userId, followingId });
 		return followshipData;

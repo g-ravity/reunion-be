@@ -1,5 +1,5 @@
 import { logger } from '../../utils/logger';
-import { IRawUser } from '../../types/User';
+import { ICleanUser } from '../../types/User';
 import { IPost } from '../../types/Post';
 import * as yup from 'yup';
 import { validateInput } from '../../utils/validateInput';
@@ -9,7 +9,7 @@ export const DeletePostSchema = yup.object({
 	id: yup.number().required(),
 });
 
-export const deletePost = async (userId: IRawUser['id'], params: Pick<IPost, 'id'>) => {
+export const deletePost = async (userId: ICleanUser['id'], params: Pick<IPost, 'id'>) => {
 	try {
 		validateInput(DeletePostSchema, params);
 

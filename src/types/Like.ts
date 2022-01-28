@@ -1,10 +1,10 @@
 import { IPost } from './Post';
-import { IRawUser } from './User';
+import { ICleanUser } from './User';
 
 export interface ILike {
 	id: number;
 	postId: IPost['id'];
-	userId: IRawUser['id'];
+	userId: ICleanUser['id'];
 }
 
 export type ILikeArgs = Pick<ILike, 'postId' | 'userId'>;

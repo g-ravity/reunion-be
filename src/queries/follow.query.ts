@@ -1,11 +1,11 @@
 import { logger } from '../utils/logger';
 import { pgClient } from '../utils/postgres';
-import { IRawUser, IUser, IUserDetails } from '../types/User';
+import { ICleanUser, IUser, IUserDetails } from '../types/User';
 import { escape } from 'sqlutils/pg';
 import { IFollow, IFollowArgs } from '../types/Follow';
 import { ISuccess } from '../types/General';
 
-export const getFollowDetailsQuery = async ({ id, username }: IRawUser): Promise<IUserDetails> => {
+export const getFollowDetailsQuery = async ({ id, username }: ICleanUser): Promise<IUserDetails> => {
 	try {
 		const userData = await new Promise<IUserDetails>((resolve, reject) => {
 			pgClient.query<Pick<IUser, 'followersCount' | 'followingCount'>>(

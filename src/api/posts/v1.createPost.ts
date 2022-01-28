@@ -1,5 +1,5 @@
 import { logger } from '../../utils/logger';
-import { IRawUser } from '../../types/User';
+import { ICleanUser } from '../../types/User';
 import { IPostArgs } from '../../types/Post';
 import * as yup from 'yup';
 import { validateInput } from '../../utils/validateInput';
@@ -10,7 +10,7 @@ export const CreatePostSchema = yup.object({
 	description: yup.string().required(),
 });
 
-export const createPost = async (userId: IRawUser['id'], params: Omit<IPostArgs, 'userId'>) => {
+export const createPost = async (userId: ICleanUser['id'], params: Omit<IPostArgs, 'userId'>) => {
 	try {
 		validateInput(CreatePostSchema, params);
 

@@ -1,5 +1,5 @@
 import { logger } from '../../utils/logger';
-import { IRawUser } from '../../types/User';
+import { ICleanUser } from '../../types/User';
 import * as yup from 'yup';
 import { validateInput } from '../../utils/validateInput';
 import { IComment } from '../../types/Comment';
@@ -10,7 +10,7 @@ export const AddCommentSchema = yup.object({
 	postId: yup.number().required(),
 });
 
-export const addComment = async (userId: IRawUser['id'], params: Pick<IComment, 'comment' | 'postId'>) => {
+export const addComment = async (userId: ICleanUser['id'], params: Pick<IComment, 'comment' | 'postId'>) => {
 	try {
 		validateInput(AddCommentSchema, params);
 

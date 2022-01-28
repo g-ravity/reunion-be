@@ -1,8 +1,8 @@
 import { logger } from '../../utils/logger';
-import { IRawUser } from '../../types/User';
+import { ICleanUser } from '../../types/User';
 import { getFollowDetailsQuery } from '../../queries/follow.query';
 
-export const getUserDetails = async (params: IRawUser) => {
+export const getUserDetails = async (params: ICleanUser) => {
 	try {
 		const userData = await getFollowDetailsQuery(params);
 		return userData;

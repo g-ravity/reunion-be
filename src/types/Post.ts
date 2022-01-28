@@ -1,4 +1,4 @@
-import { IRawUser } from './User';
+import { ICleanUser } from './User';
 
 export interface IPost {
 	id: number;
@@ -12,5 +12,5 @@ export type IPostArgs = Pick<IPost, 'title' | 'description' | 'userId'>;
 
 export type IUserPost = {
 	id: IPost['id'];
-	userId: IRawUser['id'];
+	userId: ICleanUser['id'];
 };

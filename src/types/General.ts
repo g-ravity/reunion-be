@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { IRawUser } from './User';
+import { ICleanUser } from './User';
 
 export interface IResponse extends Response {
 	create: <TData>(data: TData) => void;
 }
 
 export interface IRequest extends Request {
-	user: IRawUser;
+	user: ICleanUser;
 }
 
 export interface ISuccess {
