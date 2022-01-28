@@ -6,7 +6,7 @@ const BASE_ROUTE = '/api';
 
 router.postAsync('/authenticate', async (req: IRequest, res: IResponse) => {
 	const data = await loginUser(req.body);
-	res.create(data);	
+	res.create(data);
 });
 
 export default router.use(BASE_ROUTE, router);

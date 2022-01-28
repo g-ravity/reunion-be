@@ -1,7 +1,10 @@
 import { omitWrapper } from './commonHelpers';
 import { logger } from './logger';
 
-export const request = async <TResponse>(url: string, config: RequestInit): Promise<{ data: TResponse; status: number }> => {
+export const request = async <TResponse>(
+	url: string,
+	config: RequestInit,
+): Promise<{ data: TResponse; status: number }> => {
 	try {
 		const response = await fetch(url, omitWrapper(config, ['isJSONResponse']));
 

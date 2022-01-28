@@ -1,8 +1,8 @@
-import { NextFunction, Request } from "express";
-import { verify } from "jsonwebtoken";
-import { IResponse } from "../types/General";
-import { IRawUser } from "../types/User";
-import { logger } from "./logger";
+import { NextFunction, Request } from 'express';
+import { verify } from 'jsonwebtoken';
+import { IResponse } from '../types/General';
+import { IRawUser } from '../types/User';
+import { logger } from './logger';
 
 export const checkJWT = () => {
 	return async function checkJWTMiddleware(req: Request, res: IResponse, next: NextFunction) {

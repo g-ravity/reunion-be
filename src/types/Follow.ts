@@ -1,5 +1,5 @@
 export interface IFollow {
-    id: string;
-    followerId: number;
-    followingId: number;
+	id: string;
+	followerId: number;
+	followingId: number;
 }
