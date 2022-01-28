@@ -40,7 +40,7 @@ export const followUserQuery = async ({ follower_id, following_id }: IFollowArgs
 			pgClient.query<IFollow>(
 				`INSERT INTO follow (follower_id, following_id)
 				VALUES (${escape(follower_id)}, ${escape(following_id)})
-                RETURNING inserted.id, inserted.follower_id, inserted.following_id`,
+                RETURNING id, follower_id, following_id`,
 				(error, results) => {
 					if (error) {
 						logger.error('Error in followUser query: ', error);
@@ -71,10 +71,8 @@ export const unfollowUserQuery = async ({ follower_id, following_id }: IFollowAr
 						reject(error);
 					}
 
-					// TODO: Check if this is the correct way to return success
-					console.log(results);
-
-					resolve({ isSuccess: true });
+					if (results.rowCount === 1) resolve({ isSuccess: true });
+					else reject('No following relationship found');
 				},
 			);
 		});
