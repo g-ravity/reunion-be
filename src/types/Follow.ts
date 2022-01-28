@@ -1,7 +1,7 @@
 export interface IFollow {
 	id: string;
-	followerId: number;
-	followingId: number;
+	follower_id: number;
+	following_id: number;
 }
 
-export type IFollowArgs = Pick<IFollow, 'followerId' | 'followingId'>;
+export type IFollowArgs = Pick<IFollow, 'follower_id' | 'following_id'>;

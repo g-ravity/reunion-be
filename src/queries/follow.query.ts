@@ -8,18 +8,21 @@ import { ISuccess } from '../types/General';
 export const getFollowDetailsQuery = async ({ id, username }: ICleanUser): Promise<IUserDetails> => {
 	try {
 		const userData = await new Promise<IUserDetails>((resolve, reject) => {
-			pgClient.query<Pick<IUser, 'followersCount' | 'followingCount'>>(
+			pgClient.query<Pick<IUser, 'followers_count' | 'following_count'>>(
 				`SELECT 
-                (SELECT COUNT(id) as count FROM follow WHERE followingId = $1) as followersCount,
-                (SELECT COUNT(id) as count FROM follow WHERE followerId = $1) as followingCount`,
-				[escape(id)],
+                CAST((SELECT COUNT(id) as count FROM follow WHERE following_id = ${escape(
+					id,
+				)}) AS INTEGER) as followers_count,
+                CAST((SELECT COUNT(id) as count FROM follow WHERE follower_id = ${escape(
+					id,
+				)}) AS INTEGER) as following_count`,
 				(error, results) => {
 					if (error) {
 						logger.error('Error in getFollowDetails query: ', error);
 						reject(error);
 					}
 
-					resolve({ id, username, ...results.rows[0] });
+					resolve({ id, username, ...results?.rows[0] });
 				},
 			);
 		});
@@ -27,25 +30,24 @@ export const getFollowDetailsQuery = async ({ id, username }: ICleanUser): Promi
 		return userData;
 	} catch (err) {
 		logger.error('Error in getFollowDetails query: ', err);
-		return null;
+		return err;
 	}
 };
 
-export const followUserQuery = async ({ followerId, followingId }: IFollowArgs): Promise<IFollow> => {
+export const followUserQuery = async ({ follower_id, following_id }: IFollowArgs): Promise<IFollow> => {
 	try {
 		const followshipData = await new Promise<IFollow>((resolve, reject) => {
 			pgClient.query<IFollow>(
-				`INSERT INTO follow (followerId, followingId)
-				VALUES ($1, $2)
-                RETURNING inserted.id, inserted.followerId, inserted.followingId`,
-				[escape(followerId), escape(followingId)],
+				`INSERT INTO follow (follower_id, following_id)
+				VALUES (${escape(follower_id)}, ${escape(following_id)})
+                RETURNING inserted.id, inserted.follower_id, inserted.following_id`,
 				(error, results) => {
 					if (error) {
 						logger.error('Error in followUser query: ', error);
 						reject(error);
 					}
 
-					resolve(results.rows[0]);
+					resolve(results?.rows[0]);
 				},
 			);
 		});
@@ -53,17 +55,16 @@ export const followUserQuery = async ({ followerId, followingId }: IFollowArgs):
 		return followshipData;
 	} catch (err) {
 		logger.error('Error in followUser query: ', err);
-		return null;
+		return err;
 	}
 };
 
-export const unfollowUserQuery = async ({ followerId, followingId }: IFollowArgs): Promise<ISuccess> => {
+export const unfollowUserQuery = async ({ follower_id, following_id }: IFollowArgs): Promise<ISuccess> => {
 	try {
 		const data = await new Promise<ISuccess>((resolve, reject) => {
 			pgClient.query<ISuccess>(
 				`DELETE FROM follow
-            WHERE followerId = $1 AND followingId = $2`,
-				[escape(followerId), escape(followingId)],
+            WHERE follower_id = ${escape(follower_id)} AND following_id = ${escape(following_id)}`,
 				(error, results) => {
 					if (error) {
 						logger.error('Error in unfollowUser query: ', error);
@@ -81,6 +82,6 @@ export const unfollowUserQuery = async ({ followerId, followingId }: IFollowArgs
 		return data;
 	} catch (err) {
 		logger.error('Error in unfollowUser query: ', err);
-		return null;
+		return err;
 	}
 };

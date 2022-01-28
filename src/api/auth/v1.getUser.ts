@@ -8,6 +8,6 @@ export const getUserDetails = async (params: ICleanUser) => {
 		return userData;
 	} catch (err) {
 		logger.error('v1.getUser: ', err);
-		return null;
+		return err;
 	}
 };

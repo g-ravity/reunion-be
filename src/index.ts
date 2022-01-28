@@ -12,7 +12,6 @@ import upgradeResponse from './utils/responseConstructor';
 import { logger } from './utils/logger';
 import postgresConnection from './utils/postgres';
 import dotenv from 'dotenv-safe';
-import { checkJWT } from './utils/authHelpers';
 
 const port = process.env.PORT;
 
@@ -30,9 +29,6 @@ app.use(Express.urlencoded({ limit: '50mb' }));
 
 upgradeResponse(app).use(routes);
 upgradeResponse(app).use(authRoutes);
-
-app.use(checkJWT());
-
 upgradeResponse(app).use(commentRoutes);
 upgradeResponse(app).use(likesRoutes);
 upgradeResponse(app).use(followRoutes);

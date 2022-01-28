@@ -7,8 +7,8 @@ export interface IRawUser {
 export type ICleanUser = Omit<IRawUser, 'password'>;
 
 export interface IUser extends ICleanUser {
-	followingCount: number;
-	followersCount: number;
+	following_count: number;
+	followers_count: number;
 }
 
 export type IUserDetails = Omit<IUser, 'email'>;
