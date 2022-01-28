@@ -1,8 +1,7 @@
 import { logger } from '../utils/logger';
 import { pgClient } from '../utils/postgres';
-import { IRawUser, IUser, IUserDetails } from '../types/User';
+import { IUser } from '../types/User';
 import { escape } from 'sqlutils/pg';
-import { IFollow } from '../types/Follow';
 import { ISuccess } from '../types/General';
 import { IPost, IPostArgs, IUserPost } from '../types/Post';
 
