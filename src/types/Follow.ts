@@ -3,3 +3,5 @@ export interface IFollow {
 	followerId: number;
 	followingId: number;
 }
+
+export type IFollowArgs = Pick<IFollow, 'followerId' | 'followingId'>;

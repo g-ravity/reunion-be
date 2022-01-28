@@ -1,14 +1,18 @@
+import { followUser } from '../api/follow/v1.follow';
+import { unfollowUser } from '../api/follow/v1.unfollow';
 import { IRequest, IResponse } from '../types/General';
 import { decoratedRouter as router } from '../utils/router';
 
 const BASE_ROUTE = '/api';
 
 router.postAsync('/follow/:id', async (req: IRequest, res: IResponse) => {
-	res.send('Follow User');
+	const data = await followUser(req.user.id, +req.params.id);
+	res.create(data);
 });
 
 router.postAsync('/unfollow/:id', async (req: IRequest, res: IResponse) => {
-	res.send('Unfollow User');
+	const data = await unfollowUser(req.user.id, +req.params.id);
+	res.create(data);
 });
 
 export default router.use(BASE_ROUTE, router);

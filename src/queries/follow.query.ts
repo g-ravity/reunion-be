@@ -1,13 +1,13 @@
 import { logger } from '../utils/logger';
 import { pgClient } from '../utils/postgres';
-import { IRawUser, IUser } from '../types/User';
+import { IRawUser, IUser, IUserDetails } from '../types/User';
 import { escape } from 'sqlutils/pg';
-import { IFollow } from '../types/Follow';
+import { IFollow, IFollowArgs } from '../types/Follow';
 import { ISuccess } from '../types/General';
 
-export const getFollowDetailsQuery = async ({ id, username }: IRawUser): Promise<IUser> => {
+export const getFollowDetailsQuery = async ({ id, username }: IRawUser): Promise<IUserDetails> => {
 	try {
-		const userData = await new Promise<IUser>((resolve, reject) => {
+		const userData = await new Promise<IUserDetails>((resolve, reject) => {
 			pgClient.query<Pick<IUser, 'followersCount' | 'followingCount'>>(
 				`SELECT 
                 (SELECT COUNT(id) as count FROM follow WHERE followingId = $1) as followersCount,
@@ -15,7 +15,7 @@ export const getFollowDetailsQuery = async ({ id, username }: IRawUser): Promise
 				[escape(id)],
 				(error, results) => {
 					if (error) {
-						logger.error('Error in user follow details query: ', error);
+						logger.error('Error in getFollowDetails query: ', error);
 						reject(error);
 					}
 
@@ -31,20 +31,17 @@ export const getFollowDetailsQuery = async ({ id, username }: IRawUser): Promise
 	}
 };
 
-export const followUserQuery = async ({
-	followerId,
-	followingId,
-}: Pick<IFollow, 'followerId' | 'followingId'>): Promise<IFollow> => {
+export const followUserQuery = async ({ followerId, followingId }: IFollowArgs): Promise<IFollow> => {
 	try {
 		const followshipData = await new Promise<IFollow>((resolve, reject) => {
 			pgClient.query<IFollow>(
 				`INSERT INTO follow (followerId, followingId)
-                OUTPUT inserted.id, inserted.followerId, inserted.followingId
-                VALUES ($1, $2)`,
+				VALUES ($1, $2)
+                RETURNING inserted.id, inserted.followerId, inserted.followingId`,
 				[escape(followerId), escape(followingId)],
 				(error, results) => {
 					if (error) {
-						logger.error('Error in follow user query: ', error);
+						logger.error('Error in followUser query: ', error);
 						reject(error);
 					}
 
@@ -55,14 +52,12 @@ export const followUserQuery = async ({
 
 		return followshipData;
 	} catch (err) {
-		logger.error('Error in getFollowDetails query: ', err);
+		logger.error('Error in followUser query: ', err);
 		return null;
 	}
 };
-export const unfollowUserQuery = async ({
-	followerId,
-	followingId,
-}: Pick<IFollow, 'followerId' | 'followingId'>): Promise<ISuccess> => {
+
+export const unfollowUserQuery = async ({ followerId, followingId }: IFollowArgs): Promise<ISuccess> => {
 	try {
 		const data = await new Promise<ISuccess>((resolve, reject) => {
 			pgClient.query<ISuccess>(
@@ -71,7 +66,7 @@ export const unfollowUserQuery = async ({
 				[escape(followerId), escape(followingId)],
 				(error, results) => {
 					if (error) {
-						logger.error('Error in unfollow user query: ', error);
+						logger.error('Error in unfollowUser query: ', error);
 						reject(error);
 					}
 
@@ -85,7 +80,7 @@ export const unfollowUserQuery = async ({
 
 		return data;
 	} catch (err) {
-		logger.error('Error in getFollowDetails query: ', err);
+		logger.error('Error in unfollowUser query: ', err);
 		return null;
 	}
 };

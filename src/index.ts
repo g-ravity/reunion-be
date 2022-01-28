@@ -1,4 +1,4 @@
-import Express, { NextFunction, Response } from 'express';
+import Express from 'express';
 import timeout from 'connect-timeout';
 import cors from 'cors';
 import routes from './routes/routes';

@@ -2,9 +2,10 @@ import { logger } from '../../utils/logger';
 import { validateInput } from '../../utils/validateInput';
 import * as yup from 'yup';
 import { loginQuery } from '../../queries/auth.query';
+import { IRawUser } from '../../types/User';
 
 export type ILoginParams = {
-	email: string;
+	email: IRawUser['email'];
 	password: string;
 };
 
