@@ -1,13 +1,18 @@
 import { Client } from 'pg';
 import { logger } from './logger';
 
+const dbConfig = process.env.DATABASE_URL
+	? { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
+	: {
+			user: process.env.POSTGRES_USER,
+			host: process.env.POSTGRES_HOST,
+			database: process.env.POSTGRES_DB,
+			password: process.env.POSTGRES_PASSWORD,
+			port: +process.env.POSTGRES_PORT,
+	  };
+
 export const pgClient = new Client({
-	user: process.env.POSTGRES_USER,
-	host: process.env.POSTGRES_HOST,
-	database: process.env.POSTGRES_DB,
-	password: process.env.POSTGRES_PASSWORD,
-	port: +process.env.POSTGRES_PORT,
-	ssl: true,
+	...dbConfig,
 });
 
 const postgresConnection = async () => {
