@@ -7,14 +7,14 @@ import { createCommentQuery } from '../../queries/comments.query';
 
 export const AddCommentSchema = yup.object({
 	comment: yup.string().required(),
-	postId: yup.number().required(),
+	post_id: yup.number().required(),
 });
 
-export const addComment = async (userId: ICleanUser['id'], params: Pick<IComment, 'comment' | 'postId'>) => {
+export const addComment = async (user_id: ICleanUser['id'], params: Pick<IComment, 'comment' | 'post_id'>) => {
 	try {
 		validateInput(AddCommentSchema, params);
 
-		const comment = await createCommentQuery({ ...params, userId });
+		const comment = await createCommentQuery({ ...params, user_id });
 		return comment;
 	} catch (err) {
 		logger.error('v1.addComment: ', err);

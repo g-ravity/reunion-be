@@ -62,7 +62,7 @@ export const getPostQuery = async ({ id }: Pick<IPost, 'id'>): Promise<IPost> =>
 				FROM users
 				JOIN 
 				(SELECT posts.id, posts.title, posts.description, posts.created_at, posts.user_id,
-				CAST ((SELECT COUNT(*) FROM likes WHERE likes.post_id = id) AS INTEGER) as likes_count,
+				CAST ((SELECT COUNT(*) FROM likes WHERE likes.post_id = ${escape(id)}) AS INTEGER) as likes_count,
 				COALESCE(JSON_AGG(JSON_BUILD_OBJECT('comment_id', comments.id, 'comment' , comments.comment)) FILTER (WHERE comments.id IS NOT NULL), '[]') as comments
 				FROM posts
 				LEFT JOIN comments on comments.post_id = posts.id
@@ -94,7 +94,7 @@ export const getMyPostsQuery = async ({ id }: Pick<IUser, 'id'>): Promise<IPost[
 				FROM users
 				JOIN 
 				(SELECT posts.id, posts.title, posts.description, posts.created_at, posts.user_id,
-				CAST ((SELECT COUNT(*) FROM likes WHERE likes.post_id = id) AS INTEGER) as likes_count,
+				CAST ((SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id) AS INTEGER) as likes_count,
 				COALESCE(JSON_AGG(JSON_BUILD_OBJECT('comment_id', comments.id, 'comment' , comments.comment)) FILTER (WHERE comments.id IS NOT NULL), '[]') as comments
 				FROM posts
 				LEFT JOIN comments on comments.post_id = posts.id

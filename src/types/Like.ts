@@ -3,8 +3,8 @@ import { ICleanUser } from './User';
 
 export interface ILike {
 	id: number;
-	postId: IPost['id'];
-	userId: ICleanUser['id'];
+	post_id: IPost['id'];
+	user_id: ICleanUser['id'];
 }
 
-export type ILikeArgs = Pick<ILike, 'postId' | 'userId'>;
+export type ILikeArgs = Pick<ILike, 'post_id' | 'user_id'>;

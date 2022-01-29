@@ -4,8 +4,8 @@ import { ICleanUser } from './User';
 export interface IComment {
 	id: number;
 	comment: string;
-	postId: IPost['id'];
-	userId: ICleanUser['id'];
+	post_id: IPost['id'];
+	user_id: ICleanUser['id'];
 }
 
-export type ICommentArgs = Pick<IComment, 'comment' | 'postId' | 'userId'>;
+export type ICommentArgs = Pick<IComment, 'comment' | 'post_id' | 'user_id'>;
