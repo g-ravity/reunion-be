@@ -24,7 +24,7 @@ router.postAsync('/posts', checkJWT, async (req: IRequest, res: IResponse) => {
 });
 
 router.deleteAsync('/posts/:id', checkJWT, async (req: IRequest, res: IResponse) => {
-	const data = await deletePost(req.user.id, { id: +req.params.id });
+	const data = await deletePost(req.user.id, { post_id: +req.params.id });
 	res.create(data);
 });
 

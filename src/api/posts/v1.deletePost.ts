@@ -1,15 +1,15 @@
 import { logger } from '../../utils/logger';
 import { ICleanUser } from '../../types/User';
-import { IPost } from '../../types/Post';
+import { IUserPost } from '../../types/Post';
 import * as yup from 'yup';
 import { validateInput } from '../../utils/validateInput';
 import { deletePostQuery } from '../../queries/posts.query';
 
 export const DeletePostSchema = yup.object({
-	id: yup.number().required(),
+	post_id: yup.number().required(),
 });
 
-export const deletePost = async (user_id: ICleanUser['id'], params: Pick<IPost, 'id'>) => {
+export const deletePost = async (user_id: ICleanUser['id'], params: Pick<IUserPost, 'post_id'>) => {
 	try {
 		validateInput(DeletePostSchema, params);
 

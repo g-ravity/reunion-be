@@ -1,11 +1,13 @@
-import { IPost } from './Post';
-import { ICleanUser } from './User';
+import { IUserPost } from './Post';
 
-export interface IComment {
+export interface IRawComment extends IUserPost {
 	id: number;
 	comment: string;
-	post_id: IPost['id'];
-	user_id: ICleanUser['id'];
 }
 
-export type ICommentArgs = Pick<IComment, 'comment' | 'post_id' | 'user_id'>;
+export interface ICleanComment {
+	comment_id: IRawComment['id'];
+	comment: IRawComment['comment'];
+}
+
+export type ICommentArgs = Pick<IRawComment, 'comment' | 'post_id' | 'user_id'>;

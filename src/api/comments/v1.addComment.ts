@@ -2,7 +2,7 @@ import { logger } from '../../utils/logger';
 import { ICleanUser } from '../../types/User';
 import * as yup from 'yup';
 import { validateInput } from '../../utils/validateInput';
-import { IComment } from '../../types/Comment';
+import { IRawComment } from '../../types/Comment';
 import { createCommentQuery } from '../../queries/comments.query';
 
 export const AddCommentSchema = yup.object({
@@ -10,7 +10,7 @@ export const AddCommentSchema = yup.object({
 	post_id: yup.number().required(),
 });
 
-export const addComment = async (user_id: ICleanUser['id'], params: Pick<IComment, 'comment' | 'post_id'>) => {
+export const addComment = async (user_id: ICleanUser['id'], params: Pick<IRawComment, 'comment' | 'post_id'>) => {
 	try {
 		validateInput(AddCommentSchema, params);
 

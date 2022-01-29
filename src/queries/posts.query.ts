@@ -3,7 +3,7 @@ import { pgClient } from '../utils/postgres';
 import { IUser } from '../types/User';
 import { escape } from 'sqlutils/pg';
 import { ISuccess } from '../types/General';
-import { IPost, IPostArgs, IUserPost } from '../types/Post';
+import { IPost, IPostArgs, IPostComment, IUserPost } from '../types/Post';
 
 export const createPostQuery = async ({ title, description, user_id }: IPostArgs): Promise<IPost> => {
 	try {
@@ -30,11 +30,11 @@ export const createPostQuery = async ({ title, description, user_id }: IPostArgs
 	}
 };
 
-export const deletePostQuery = async ({ id, user_id }: IUserPost): Promise<ISuccess> => {
+export const deletePostQuery = async ({ post_id, user_id }: IUserPost): Promise<ISuccess> => {
 	try {
 		const data = await new Promise<ISuccess>((resolve, reject) => {
 			pgClient.query<ISuccess>(
-				`DELETE FROM posts WHERE id = ${escape(id)} AND user_id = ${escape(user_id)}`,
+				`DELETE FROM posts WHERE id = ${escape(post_id)} AND user_id = ${escape(user_id)}`,
 				(error, results) => {
 					if (error) {
 						logger.error('Error in deletePost query: ', error);
@@ -54,10 +54,10 @@ export const deletePostQuery = async ({ id, user_id }: IUserPost): Promise<ISucc
 	}
 };
 
-export const getPostQuery = async ({ id }: Pick<IPost, 'id'>): Promise<IPost> => {
+export const getPostQuery = async ({ id }: Pick<IPost, 'id'>): Promise<IPostComment> => {
 	try {
-		const post = await new Promise<IPost>((resolve, reject) => {
-			pgClient.query<IPost>(
+		const post = await new Promise<IPostComment>((resolve, reject) => {
+			pgClient.query<IPostComment>(
 				`SELECT post_comments.id, post_comments.title, post_comments.description, post_comments.created_at, post_comments.likes_count, post_comments.comments, users.id as user_id, users.username
 				FROM users
 				JOIN 
@@ -86,10 +86,10 @@ export const getPostQuery = async ({ id }: Pick<IPost, 'id'>): Promise<IPost> =>
 	}
 };
 
-export const getMyPostsQuery = async ({ id }: Pick<IUser, 'id'>): Promise<IPost[]> => {
+export const getMyPostsQuery = async ({ id }: Pick<IUser, 'id'>): Promise<IPostComment[]> => {
 	try {
-		const posts = await new Promise<IPost[]>((resolve, reject) => {
-			pgClient.query<IPost>(
+		const posts = await new Promise<IPostComment[]>((resolve, reject) => {
+			pgClient.query<IPostComment>(
 				`SELECT post_comments.id, post_comments.title, post_comments.description, post_comments.created_at, post_comments.likes_count, post_comments.comments, users.id as user_id, users.username
 				FROM users
 				JOIN 

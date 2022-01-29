@@ -1,3 +1,4 @@
+import { ICleanComment } from './Comment';
 import { ICleanUser } from './User';
 
 export interface IPost {
@@ -11,6 +12,12 @@ export interface IPost {
 export type IPostArgs = Pick<IPost, 'title' | 'description' | 'user_id'>;
 
 export type IUserPost = {
-	id: IPost['id'];
+	post_id: IPost['id'];
 	user_id: ICleanUser['id'];
 };
+
+export interface IPostComment extends IPost {
+	username: ICleanUser['username'];
+	comments: ICleanComment[];
+	likes_Count: number;
+}
