@@ -2,15 +2,15 @@ import { ICleanUser } from './User';
 
 export interface IPost {
 	id: number;
-	userId: number;
+	user_id: number;
 	title: string;
 	description: string;
-	createdAt: string;
+	created_at: string;
 }
 
-export type IPostArgs = Pick<IPost, 'title' | 'description' | 'userId'>;
+export type IPostArgs = Pick<IPost, 'title' | 'description' | 'user_id'>;
 
 export type IUserPost = {
 	id: IPost['id'];
-	userId: ICleanUser['id'];
+	user_id: ICleanUser['id'];
 };

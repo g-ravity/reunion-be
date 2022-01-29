@@ -9,11 +9,11 @@ export const DeletePostSchema = yup.object({
 	id: yup.number().required(),
 });
 
-export const deletePost = async (userId: ICleanUser['id'], params: Pick<IPost, 'id'>) => {
+export const deletePost = async (user_id: ICleanUser['id'], params: Pick<IPost, 'id'>) => {
 	try {
 		validateInput(DeletePostSchema, params);
 
-		const data = await deletePostQuery({ ...params, userId });
+		const data = await deletePostQuery({ ...params, user_id });
 		return data;
 	} catch (err) {
 		logger.error('v1.deletePost: ', err);

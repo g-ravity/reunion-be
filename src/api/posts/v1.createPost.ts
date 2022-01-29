@@ -10,11 +10,11 @@ export const CreatePostSchema = yup.object({
 	description: yup.string().required(),
 });
 
-export const createPost = async (userId: ICleanUser['id'], params: Omit<IPostArgs, 'userId'>) => {
+export const createPost = async (user_id: ICleanUser['id'], params: Omit<IPostArgs, 'user_id'>) => {
 	try {
 		validateInput(CreatePostSchema, params);
 
-		const post = await createPostQuery({ ...params, userId });
+		const post = await createPostQuery({ ...params, user_id });
 		return post;
 	} catch (err) {
 		logger.error('v1.createPost: ', err);

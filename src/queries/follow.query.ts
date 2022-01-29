@@ -71,7 +71,7 @@ export const unfollowUserQuery = async ({ follower_id, following_id }: IFollowAr
 						reject(error);
 					}
 
-					if (results.rowCount === 1) resolve({ isSuccess: true });
+					if (results?.rowCount === 1) resolve({ isSuccess: true });
 					else reject('No following relationship found');
 				},
 			);
