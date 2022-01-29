@@ -15,6 +15,7 @@ const postgresConnection = async () => {
 		await pgClient.connect();
 		logger.info('Successfully connected to Postgres!');
 	} catch (err) {
+		console.log(err);
 		logger.error('Something went wrong while connecting to Postgres!', err);
 	}
 };
